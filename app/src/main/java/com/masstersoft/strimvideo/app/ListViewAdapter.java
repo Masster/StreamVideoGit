@@ -17,7 +17,7 @@ public class ListViewAdapter extends ArrayAdapter<TVChannel> {
     private final Activity context;
 
     public ListViewAdapter(Activity context, ArrayList<TVChannel> list) {
-        super(context, R.layout.singleitemview, list);
+        super(context, R.layout.singleviewforvideo, list);
         this.context = context;
         this.list = list;
     }
@@ -34,7 +34,7 @@ public class ListViewAdapter extends ArrayAdapter<TVChannel> {
         if (convertView == null) {
 
             LayoutInflater inflater = context.getLayoutInflater();
-            view = inflater.inflate(R.layout.singleitemview, null);
+            view = inflater.inflate(R.layout.singleviewforvideo, null);
 
             final ViewHolder viewHolder = new ViewHolder();
 
