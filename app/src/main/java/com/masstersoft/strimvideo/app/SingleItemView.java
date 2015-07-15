@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.MediaController;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -14,55 +13,55 @@ import android.widget.VideoView;
 public class SingleItemView extends Activity {
     String tvTitle;
     String tvLink;
-    VideoView videoout;
-    ProgressDialog pDialog;
+    VideoView videoView;
+    ProgressDialog progressDialog;
 
-    TVChannel channel;
+    TVChannel tvChannel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.singleviewforvideo);
 
-        Intent i = getIntent();
+        Intent intent = getIntent();
 
-        tvTitle = i.getStringExtra("title");
-        tvLink = i.getStringExtra("link");
+        tvTitle = intent.getStringExtra("title");
+        tvLink = intent.getStringExtra("link");
 
-        channel = new TVChannel(tvTitle,tvLink);
+        tvChannel = new TVChannel(tvTitle,tvLink);
 
-        TextView tvtitle = (TextView) findViewById(R.id.tvTitle);
-        TextView tvlink = (TextView) findViewById(R.id.tvLink);
-        videoout = (VideoView)findViewById(R.id.videoout);
+        TextView tvTitleView = (TextView) findViewById(R.id.tvTitle);
+        TextView tvLinkView = (TextView) findViewById(R.id.tvLink);
+        videoView = (VideoView)findViewById(R.id.videoout);
 
-        tvtitle.setText(channel.getTitle());
-        tvlink.setText(channel.getLink());
+        tvTitleView.setText(tvChannel.getTitle());
+        tvLinkView.setText(tvChannel.getLink());
 
 
-        pDialog = new ProgressDialog(SingleItemView.this);
-        pDialog.setTitle("Загрузка видео");
-        pDialog.setMessage("Буферизация...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(true);
-        pDialog.show();
+        progressDialog = new ProgressDialog(SingleItemView.this);
+        progressDialog.setTitle("Загрузка видео");
+        progressDialog.setMessage("Буферизация...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
 
         try {
-            MediaController mediacontroller = new MediaController(SingleItemView.this);
-            mediacontroller.setAnchorView(videoout);
-            Uri video = Uri.parse(channel.getLink());
-            videoout.setMediaController(mediacontroller);
-            videoout.setVideoURI(video);
+            MediaController mc = new MediaController(SingleItemView.this);
+            mc.setAnchorView(videoView);
+            Uri video = Uri.parse(tvChannel.getLink());
+            videoView.setMediaController(mc);
+            videoView.setVideoURI(video);
 
         } catch (Exception e) {
             //Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
 
-        videoout.requestFocus();
-        videoout.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        videoView.requestFocus();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
-                pDialog.dismiss();
-                videoout.start();
+                progressDialog.dismiss();
+                videoView.start();
             }
         });
 

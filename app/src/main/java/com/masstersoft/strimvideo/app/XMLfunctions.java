@@ -45,19 +45,19 @@ public class XMLfunctions {
 
     public static NodeList getDomElementAndItems(String xml, String tagName) {
 
-        NodeList nodelist;
+        NodeList nodeList;
         Document doc = null;
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         try {
 
-            DocumentBuilder db = dbf.newDocumentBuilder();
+            DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
 
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xml));
-            doc = db.parse(is);
+            InputSource inputSource = new InputSource();
+            inputSource.setCharacterStream(new StringReader(xml));
+            doc = documentBuilder.parse(inputSource);
             doc.getDocumentElement().normalize();
 
-            nodelist = doc.getElementsByTagName(tagName);
+            nodeList = doc.getElementsByTagName(tagName);
 
         } catch (ParserConfigurationException e) {
             return null;
@@ -67,7 +67,7 @@ public class XMLfunctions {
             return null;
         }
 
-        return nodelist;
+        return nodeList;
     }
 
 }

@@ -10,14 +10,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MainActivity extends Activity {
-    ListView listview;
-    ProgressDialog mProgressDialog;
+    ListView listView;
+    ProgressDialog progressDialog;
     static String TITLE = "title";
     static String LINK = "link";
 
-    String str;
-    NodeList nodelist;
-    TVList tvlist;
+    String string;
+    NodeList nodeList;
+    TVList tvList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         new DownloadXML().execute();
-        listview = (ListView)findViewById(R.id.listview);
-        tvlist = new TVList();
+        listView = (ListView)findViewById(R.id.listview);
+        tvList = new TVList();
     }
 
     private class DownloadXML extends AsyncTask<Void, Void, Void> {
@@ -34,41 +34,41 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog = new ProgressDialog(MainActivity.this);
-            mProgressDialog.setTitle("Обновление списка каналов");
-            mProgressDialog.setMessage("Загрузка...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setTitle("Обновление списка каналов");
+            progressDialog.setMessage("Загрузка...");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            str = XMLfunctions.getXmlFromUrl("http://masstersoft.com/tv_channels.xml");
-            nodelist = XMLfunctions.getDomElementAndItems(str,"item");
+            string = XMLfunctions.getXmlFromUrl("http://masstersoft.com/tv_channels.xml");
+            nodeList = XMLfunctions.getDomElementAndItems(string,"item");
             return null;
         }
 
         @Override
         protected void onPostExecute(Void args) {
 
-            for (int temp = 0; temp < nodelist.getLength(); temp++) {
-                Node nNode = nodelist.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    tvlist.putItem(new TVChannel(getNode(TITLE, eElement),getNode(LINK, eElement)));
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node item = nodeList.item(i);
+                if (item.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) item;
+                    tvList.putItem(new TVChannel(getNode(TITLE, element), getNode(LINK, element)));
                 }
             }
 
-            ListViewAdapter lvadapter = new ListViewAdapter(MainActivity.this,tvlist.getItems());
-            listview.setAdapter(lvadapter);
-            mProgressDialog.dismiss();
+            ListViewAdapter listViewAdapter = new ListViewAdapter(MainActivity.this, tvList.getItems());
+            listView.setAdapter(listViewAdapter);
+            progressDialog.dismiss();
         }
 
-        private String getNode(String sTag, Element eElement) {
-            NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
-            Node nValue = nlList.item(0);
-            return nValue.getNodeValue();
+        private String getNode(String sTag, Element element) {
+            NodeList childNodes = element.getElementsByTagName(sTag).item(0).getChildNodes();
+            Node item = childNodes.item(0);
+            return item.getNodeValue();
         }
     }
 }

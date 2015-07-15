@@ -2,7 +2,6 @@ package com.masstersoft.strimvideo.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,13 @@ import java.util.ArrayList;
 
 public class ListViewAdapter extends ArrayAdapter<TVChannel> {
 
-    private final ArrayList<TVChannel> list;
+    private final ArrayList<TVChannel> tvChannels;
     private final Activity context;
 
-    public ListViewAdapter(Activity context, ArrayList<TVChannel> list) {
-        super(context, R.layout.singleviewforvideo, list);
+    public ListViewAdapter(Activity context, ArrayList<TVChannel> tvChannels) {
+        super(context, R.layout.singleitemview, tvChannels);
         this.context = context;
-        this.list = list;
+        this.tvChannels = tvChannels;
     }
 
     static class ViewHolder {
@@ -34,7 +33,7 @@ public class ListViewAdapter extends ArrayAdapter<TVChannel> {
         if (convertView == null) {
 
             LayoutInflater inflater = context.getLayoutInflater();
-            view = inflater.inflate(R.layout.singleviewforvideo, null);
+            view = inflater.inflate(R.layout.singleitemview, null);
 
             final ViewHolder viewHolder = new ViewHolder();
 
@@ -47,11 +46,11 @@ public class ListViewAdapter extends ArrayAdapter<TVChannel> {
                 @Override
                 public void onClick(View v) {
 
-                    TVChannel tvc = list.get((Integer) viewHolder.btnPlay.getTag());
+                    TVChannel tvChannel = tvChannels.get((Integer) viewHolder.btnPlay.getTag());
                     Intent intent = new Intent(context, SingleItemView.class);
 
-                    intent.putExtra("title", tvc.getTitle());
-                    intent.putExtra("link", tvc.getLink());
+                    intent.putExtra("title", tvChannel.getTitle());
+                    intent.putExtra("link", tvChannel.getLink());
 
                     context.startActivity(intent);
                 }
@@ -65,9 +64,9 @@ public class ListViewAdapter extends ArrayAdapter<TVChannel> {
             //Log.d("log_tag","In getView position = "+position);
             ((ViewHolder) view.getTag()).btnPlay.setTag(position);
         }
-        ViewHolder holder = (ViewHolder) view.getTag();
-        holder.tvTitle.setText(list.get(position).getTitle());
-        holder.tvLink.setText(list.get(position).getLink());
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
+        viewHolder.tvTitle.setText(tvChannels.get(position).getTitle());
+        viewHolder.tvLink.setText(tvChannels.get(position).getLink());
 
         return view;
     }

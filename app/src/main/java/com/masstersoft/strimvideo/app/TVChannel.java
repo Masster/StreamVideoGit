@@ -5,17 +5,17 @@ package com.masstersoft.strimvideo.app;
  */
 public class TVChannel {
 
-    private String tvtitle;
-    private String tvlink;
+    private String tvTitle;
+    private String tvLink;
 
-    public TVChannel(String tvt, String tvl)
+    public TVChannel(String tvTitle, String tvLink)
     {
-        this.tvtitle = tvt;
-        this.tvlink = tvl;
+        this.tvTitle = tvTitle;
+        this.tvLink = tvLink;
     }
 
-    public String getTitle(){return tvtitle;}
-    public String getLink(){return tvlink;}
+    public String getTitle(){return tvTitle;}
+    public String getLink(){return tvLink;}
 
     public String toString(){return getTitle();}
 
