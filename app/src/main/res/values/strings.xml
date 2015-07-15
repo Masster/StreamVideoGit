@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Список ТВ каналов</string>
+    <string name="menu_settings">Settings</string>
+    <string name="TVTitle">"Название канала: "</string>
+    <string name="tvlink">"Ссылка на канал: "</string>
+
+</resources>
